@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Jyobot.Interfaces;
 using Jyobot.Models;
 using Jyobot.Workers;
@@ -13,10 +14,11 @@ namespace Jyobot
     public class JyobotClient : TwitchClient, IBotClient
     {
         public IQuoteManager QuoteManager { get; set; }
+        public Dictionary<string, string> StandardCommands { get; set; }
 
         public JyobotClient(WebSocketClient clientOptions) : base(clientOptions) {}
 
-        public static JyobotClient Initialize(IQuoteManager quotes, Configuration config) {
+        public static JyobotClient Initialize(IQuoteManager quotes, CommandCollection commands, Configuration config) {
             ConnectionCredentials credentials = new ConnectionCredentials(config.Username, config.Token);
 	        var clientOptions = new ClientOptions
             {
@@ -25,7 +27,7 @@ namespace Jyobot
             };
             WebSocketClient customClient = new WebSocketClient(clientOptions);
             
-            var client = new JyobotClient(customClient){ QuoteManager = quotes };
+            var client = new JyobotClient(customClient){ QuoteManager = quotes, StandardCommands = commands.Standard };
             client.Initialize(credentials, config.Channel);
 
             client.OnJoinedChannel += JyobotClient.OnJoinedChannelHandler;

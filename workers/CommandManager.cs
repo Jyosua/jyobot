@@ -15,6 +15,9 @@ namespace Jyobot.Workers
                 case "!quote":
                     HandleQuote(message?.Channel, client);
                     break;
+                default:
+                    HandleStandardCommand(message, client);
+                    break;
             }
         }
 
@@ -34,6 +37,19 @@ namespace Jyobot.Workers
                 return;
 
             client.SendMessage(channel, quote);
+        }
+
+        public static void HandleStandardCommand(ChatMessage message, IBotClient client)
+        {
+            if(string.IsNullOrEmpty(message?.Channel))
+                return;
+
+            var command = message?.Message?.TrimStart('!');
+            if(command == message?.Message)
+                return;
+
+            if(client?.StandardCommands?.ContainsKey(command) == true)
+                client.SendMessage(message?.Channel, client.StandardCommands[command]);
         }
     }
 }

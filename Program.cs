@@ -9,9 +9,10 @@ namespace Jyobot
         static void Main(string[] args)
         {
             var config = JsonHelper.Deserialize<Configuration>("configuration.json");
+            var commands = JsonHelper.Deserialize<CommandCollection>("commands.json");
             var quotes = new QuoteManager("quotes.json").Initialize();
 
-            var client = JyobotClient.Initialize(quotes, config);
+            var client = JyobotClient.Initialize(quotes, commands, config);
             Console.ReadLine();
         }
     }

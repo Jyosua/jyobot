@@ -43,7 +43,7 @@ namespace Jyobot
 
         static void OnMessageReceivedHandler(object sender, OnMessageReceivedArgs e)
         {
-            var client = (sender as IBotClient) ?? throw new ArgumentException($"Casting error for sender in {nameof(OnMessageReceivedHandler)}");
+            var client = (sender as IBotClient) ?? throw new ArgumentException($"Unexpected casting error for sender in {nameof(OnMessageReceivedHandler)}");
 
             CommandManager.RouteCommand(e.ChatMessage, client);
         }

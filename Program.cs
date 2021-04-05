@@ -1,5 +1,6 @@
 ﻿using System;
 using Jyobot.Models;
+using Jyobot.Workers;
 
 namespace Jyobot
 {

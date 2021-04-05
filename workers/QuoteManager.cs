@@ -2,7 +2,7 @@ using System;
 using Jyobot.Interfaces;
 using Jyobot.Models;
 
-namespace Jyobot
+namespace Jyobot.Workers
 {
 
     public class QuoteManager : IQuoteManager

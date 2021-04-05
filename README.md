@@ -17,3 +17,5 @@ To get started, you need to add a file called `configuration.json` to the direct
 ```
 
 Once that's done, you should be able to just edit the `quotes.json` file and add quotes as you desire, run the bot, and it will respond to users who type `!quote` with a random quote from the file.
+
+As long as you already have .NET installed, you can run the bot from the command line with `dotnet run`.

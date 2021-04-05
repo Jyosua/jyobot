@@ -1,7 +1,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace jyobot
+namespace Jyobot
 {
     public static class JsonHelper
     {

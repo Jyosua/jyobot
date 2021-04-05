@@ -1,19 +1,22 @@
 using System;
+using Jyobot.Interfaces;
+using Jyobot.Models;
+using Jyobot.Workers;
 using TwitchLib.Client;
 using TwitchLib.Client.Events;
 using TwitchLib.Client.Models;
 using TwitchLib.Communication.Clients;
 using TwitchLib.Communication.Models;
 
-namespace jyobot
+namespace Jyobot
 {
-    public class JyobotClient : TwitchClient
+    public class JyobotClient : TwitchClient, IBotClient
     {
-        QuoteManager QuoteManager;
+        public IQuoteManager QuoteManager { get; set; }
 
         public JyobotClient(WebSocketClient clientOptions) : base(clientOptions) {}
 
-        public static JyobotClient Initialize(QuoteManager quotes, Configuration config) {
+        public static JyobotClient Initialize(IQuoteManager quotes, Configuration config) {
             ConnectionCredentials credentials = new ConnectionCredentials(config.Username, config.Token);
 	        var clientOptions = new ClientOptions
             {
@@ -40,16 +43,9 @@ namespace jyobot
 
         static void OnMessageReceivedHandler(object sender, OnMessageReceivedArgs e)
         {
-            var client = (sender as JyobotClient) ?? throw new ArgumentException($"Casting error for sender in {nameof(OnMessageReceivedHandler)}");
+            var client = (sender as IBotClient) ?? throw new ArgumentException($"Casting error for sender in {nameof(OnMessageReceivedHandler)}");
 
-            if (e.ChatMessage.Message.Equals("!quote"))
-            {
-                var quote = client.QuoteManager.GetQuote();
-                if(string.IsNullOrEmpty(quote))
-                    return;
-
-                client.SendMessage(e.ChatMessage.Channel, quote);
-            }
+            CommandManager.RouteCommand(e.ChatMessage, client);
         }
     }
 }

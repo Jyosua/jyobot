@@ -1,6 +1,7 @@
 ﻿using System;
+using Jyobot.Models;
 
-namespace jyobot
+namespace Jyobot
 {
     class Program
     {

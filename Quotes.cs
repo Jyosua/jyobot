@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
+using Jyobot.Interfaces;
+using Jyobot.Models;
 
-namespace jyobot
+namespace Jyobot
 {
-    public class QuoteCollection {
-        public List<string> Quotes;
-    }
 
-    public class QuoteManager
+    public class QuoteManager : IQuoteManager
     {
         string filename;
         QuoteCollection quotes;
@@ -17,7 +15,7 @@ namespace jyobot
             this.filename = filename;
         }
 
-        public QuoteManager Initialize()
+        public IQuoteManager Initialize()
         {
             quotes = JsonHelper.Deserialize<QuoteCollection>(filename);
             return this;
